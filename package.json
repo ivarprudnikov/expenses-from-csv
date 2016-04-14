@@ -1,0 +1,57 @@
+{
+  "name": "expenses",
+  "version": "1.0.0",
+  "description": "Import csv and plot expenses",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "browser": {
+    "Papa": "./node_modules/papaparse/papaparse.js"
+  },
+  "browserify-shim": {
+    "Papa": "Papa"
+  },
+  "dependencies": {
+    "angular2": "2.0.0-beta.15",
+    "bootstrap-sass": "^3.3.6",
+    "es6-shim": "^0.35.0",
+    "jquery": "~2.2.1",
+    "ng2-file-upload": "^0.46.0",
+    "papaparse": "^4.1.2",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "^0.6.10"
+  },
+  "devDependencies": {
+    "babel-plugin-angular2-annotations": "^5.0.0",
+    "babel-plugin-transform-class-properties": "^6.6.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.3",
+    "babel-plugin-transform-flow-strip-types": "^6.6.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "browserify-shim": "^3.8.12",
+    "grunt": "^0.4.5",
+    "grunt-angular-templates": "^1.0.3",
+    "grunt-babel": "^6.0.0",
+    "grunt-browserify": "^5.0.0",
+    "grunt-concurrent": "^2.2.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-compass": "^1.1.0",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-connect": "^0.11.2",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-htmlmin": "^0.6.0",
+    "grunt-contrib-uglify": "^0.11.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-filerev": "^2.3.1",
+    "grunt-usemin": "^3.1.1",
+    "load-grunt-tasks": "^3.4.0",
+    "serve-static": "^1.10.2",
+    "time-grunt": "^1.3.0"
+  }
+}
