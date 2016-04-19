@@ -1,20 +1,21 @@
 import {Component} from 'angular2/core';
+import {Transaction} from './transaction';
 var Papa = require('Papa');
 
 @Component({
   selector: 'main',
   template: `<section class="container">
-    <p>Main component</p>
+    <p>Upload exported CSV from AIB</p>
     <input type="file" (change)="onChange($event)"/>
-    <table>
+    <table class="table table-condensed table-bordered table-striped">
       <thead>
         <tr>
-          <th>s</th>
+          <th *ngFor="#k of data.headers">{{k}}</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>r</td>
+        <tr *ngFor="#transaction of data.rows">
+          <td *ngFor="#k of data.headers">{{transaction[k]}}</td>
         </tr>
       </tbody>
     </table>
@@ -23,13 +24,33 @@ var Papa = require('Papa');
 export class Main {
 
   constructor(){
+    let transactions = Transaction.list()
+    let list = []
+    if(transactions){
+      list = Object.keys(transactions).map((v) => transactions[v])
+    }
     this.data = {
-      headers: [],
-      rows: []
+      headers: ['id'],
+      rows: list
     }
   }
 
+  setData(headers, rows){
+    this.data.headers = ['id'];
+    this.data.rows = rows.map(v => (new Transaction()).setData(v).save());
+  }
+
+  parseFile(file){
+    let that = this;
+    Papa.parse(file, {
+      complete: (results) => {
+        that.setData(results.data[0], results.data.splice(1))
+      }
+    });
+  }
+
   onChange(event){
+
     var files = event.srcElement.files;
     var file;
     if(files.length){
@@ -39,12 +60,7 @@ export class Main {
     }
 
     if(file){
-      Papa.parse(file, {
-        complete: function(results) {
-          this.data.headers = results.data[0];
-          this.data.rows = results.data.splice(1);
-        }
-      });
+      this.parseFile(file);
     }
   }
 
