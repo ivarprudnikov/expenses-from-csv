@@ -1,20 +1,29 @@
 import {Component} from 'angular2/core';
 import {Transaction} from './transaction';
+import {Chart} from './chart'
 var Papa = require('Papa');
 
 @Component({
   selector: 'main',
+  directives: [Chart],
   template: `<section class="container">
     <p>Upload exported CSV from AIB</p>
     <input type="file" (change)="onChange($event)"/>
+
+    <hr>
+    <chart-d3-line [transactions]="data.rows"></chart-d3-line>
+    <hr>
+
     <table class="table table-condensed table-bordered table-striped">
       <thead>
         <tr>
+          <th></th>
           <th *ngFor="#k of data.headers">{{k}}</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="#transaction of data.rows">
+        <tr *ngFor="#transaction of data.rows; #i = index">
+          <td>{{i + 1}}</td>
           <td *ngFor="#k of data.headers">{{transaction[k]}}</td>
         </tr>
       </tbody>
@@ -24,27 +33,27 @@ var Papa = require('Papa');
 export class Main {
 
   constructor(){
-    let transactions = Transaction.list()
+    let transactions = Transaction.all()
     let list = []
     if(transactions){
       list = Object.keys(transactions).map((v) => transactions[v])
     }
     this.data = {
-      headers: ['id'],
+      headers: ['account', 'date', 'description', 'type', 'value', 'balance'],
       rows: list
     }
   }
 
-  setData(headers, rows){
-    this.data.headers = ['id'];
-    this.data.rows = rows.map(v => (new Transaction()).setData(v).save());
+  setRows(rows){
+    this.data.rows = rows.map(v => (new Transaction(v)).save());
   }
 
   parseFile(file){
     let that = this;
     Papa.parse(file, {
       complete: (results) => {
-        that.setData(results.data[0], results.data.splice(1))
+        let columns = results.data[0]
+        that.setRows(results.data.splice(1))
       }
     });
   }
@@ -62,6 +71,14 @@ export class Main {
     if(file){
       this.parseFile(file);
     }
+  }
+
+  chartClicked(e) {
+    console.log(e);
+  }
+
+  chartHovered(e) {
+    console.log(e);
   }
 
 }

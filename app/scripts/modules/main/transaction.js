@@ -1,20 +1,32 @@
 export class Transaction {
 
-  static list(){
-    JSON.parse(localStorage.getItem('transactions'))
+  static all(){
+    return JSON.parse(localStorage.getItem('transactions'))
   }
 
-  constructor(){
+  constructor(values){
     this.id = null
     this.account = null
     this.date = null
     this.description = null
     this.type = null
     this.value = 0
+    this.balance = 0
+
+    if(values){
+      this.setData(values)
+    }
   }
 
   generateId(){
     return encodeURIComponent(`${this.account}-${this.date}-${this.description}-${this.value}`)
+  }
+
+  parseValue(val){
+    if(typeof val === 'string'){
+      return parseFloat(val.split(",").join(""));
+    }
+    return val
   }
 
   setData(data){
@@ -22,7 +34,8 @@ export class Transaction {
     this.date = data[1]
     this.description = data[2]
     this.type = data[7]
-    this.value = data[4] || -data[3]
+    this.balance = this.parseValue(data[5])
+    this.value = this.parseValue(data[4]) || -(this.parseValue(data[3]))
     this.id = this.generateId()
 
     return this
@@ -30,12 +43,11 @@ export class Transaction {
 
   save(){
 
-    let items = Transaction.list()
-    if(!items)
+    let items = Transaction.all()
+    if(!items) {
       items = {}
+    }
     items[this.id] = this;
-
-    console.debug(items);
 
     localStorage.setItem('transactions', JSON.stringify(items))
 
