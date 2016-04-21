@@ -7,14 +7,18 @@ var Papa = require('Papa');
   selector: 'main',
   directives: [Chart],
   template: `<section class="container">
-    <p>Upload exported CSV from AIB</p>
-    <input type="file" (change)="onChange($event)"/>
+    <p class="select-file-input-box">
+      <label for="file-input">Upload exported CSV from AIB</label>
+      <input id="file-input" type="file" (change)="onChange($event)"/>
+    </p>
 
-    <hr>
-    <chart-d3-line [transactions]="data.rows"></chart-d3-line>
-    <hr>
+    <div *ngIf="data?.rows?.length">
+      <h3>Balance</h3>
+      <chart-d3-line [transactions]="data.rows"></chart-d3-line>
+      <hr>
+    </div>
 
-    <table class="table table-condensed table-bordered table-striped">
+    <table *ngIf="data?.rows?.length" class="table table-condensed table-bordered table-striped">
       <thead>
         <tr>
           <th></th>

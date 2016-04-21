@@ -9,8 +9,23 @@ body {
   padding-bottom: 100px;
 }
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+.select-file-input-box {
+  text-align: right;
+
+  label,
+  input {
+    cursor: pointer;
+    border: 3px dotted orange;
+    display: inline-block;
+    padding: 8px 15px;
+  }
+
+  label {
+    border-right: 0;
+  }
+  input {
+    border-left: 0;
+  }
 }
 
 .footer-container {

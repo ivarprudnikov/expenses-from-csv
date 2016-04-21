@@ -10,10 +10,6 @@ import {Component} from 'angular2/core';
       <div class="navbar-header">
         <a [routerLink]="['Main']" class="navbar-brand logo">Expenses</a>
       </div>
-      <nav role="navigation">
-        <ul class="nav navbar-nav navbar-right">
-        </ul>
-      </nav>
     </div>
   </header>
   `
